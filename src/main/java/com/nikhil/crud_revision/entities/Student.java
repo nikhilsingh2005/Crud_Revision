@@ -19,13 +19,14 @@ public class Student {
     @Column(name = "student_name")
     private String name;
     @Column(name = "student_age")
-    private int age;
+    private Integer age;
     @Column(name = "student_roll_number")
-    private int roll_number;
+    private Integer roll_number;
 
     @Column(name = "student_department")
     private String department;
 
+    @Enumerated(EnumType.STRING)
     @Column(name = "sex")
     private Sex sex;
 
