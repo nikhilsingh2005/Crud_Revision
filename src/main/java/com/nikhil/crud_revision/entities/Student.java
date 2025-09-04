@@ -43,7 +43,7 @@ public class Student {
     private LocalDate dateOfBirth;
 
     @NotBlank
-    @Email
+    @Email(message = "Email should be valid")
     @Column(name = "student_email", unique = true, nullable = false)
     private String email;
 
