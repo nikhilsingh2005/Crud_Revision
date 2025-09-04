@@ -23,7 +23,11 @@ public class StudentServiceImpl implements StudentServiceInterf {
 
     @Override
     public Student getStudentById(Long id) {
-        return studentRepository.findById(id).orElse(null);
+        Student existingStudent = studentRepository.findById(id).orElse(null);
+        if (existingStudent == null) {
+            throw new RuntimeException("Student not found with id: " + id);
+        }
+        return existingStudent;
     }
 
     @Override
@@ -38,26 +42,8 @@ public class StudentServiceImpl implements StudentServiceInterf {
         if (existingStudent == null) {
             throw new RuntimeException("Student not found with id: " + student.getId());
         }
+        student.setId(existingStudent.getId());
 
-        // Update only non-null fields (to support partial updates)
-        if (student.getName() != null) {
-            existingStudent.setName(student.getName());
-        }
-        if (student.getAge() != null) {
-            existingStudent.setAge(student.getAge());
-        }
-        if (student.getRoll_number() != null) {
-            existingStudent.setRoll_number(student.getRoll_number());
-        }
-        if (student.getDepartment() != null) {
-            existingStudent.setDepartment(student.getDepartment());
-        }
-        if (student.getSex() != null) {
-            existingStudent.setSex(student.getSex());
-        }
-        if (student.getCollege_name() != null) {
-            existingStudent.setCollege_name(student.getCollege_name());
-        }
 
         return studentRepository.save(existingStudent);
     }
@@ -65,6 +51,7 @@ public class StudentServiceImpl implements StudentServiceInterf {
     @Override
     public Student deleteStudentById(Long id) {
         Student existingStudent = getStudentById(id);
+
         if (existingStudent == null) {
             throw new RuntimeException("Student not found with id: " + id);
         }
